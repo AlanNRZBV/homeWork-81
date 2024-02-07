@@ -2,7 +2,7 @@ import mongoose  from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const LinkSchema = new Schema({
+const UrlsSchema = new Schema({
   shortUrl:{
     type: String,
     required: true
@@ -13,6 +13,6 @@ const LinkSchema = new Schema({
   }
 })
 
-const Link = mongoose.model('Product', LinkSchema);
+const Url = mongoose.model('Product', UrlsSchema);
 
-export default Link
+export default Url
