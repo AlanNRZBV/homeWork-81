@@ -1,8 +1,7 @@
-
 const config = {
-  mongoose:{
+  mongoose: {
     db: 'mongodb://localhost/urls',
-  }
-}
+  },
+};
 
-export default config
+export default config;

@@ -1,18 +1,18 @@
-import mongoose  from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
 const UrlsSchema = new Schema({
-  shortUrl:{
+  shortUrl: {
     type: String,
-    required: true
+    required: true,
   },
-  originalUrl:{
+  originalUrl: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 const Url = mongoose.model('Product', UrlsSchema);
 
-export default Url
+export default Url;

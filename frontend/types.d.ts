@@ -1,7 +1,7 @@
 export interface UserUrl {
-  url:string
+  url: string;
 }
 
 export interface Response {
-  shortUrl:string
+  shortUrl: string;
 }
