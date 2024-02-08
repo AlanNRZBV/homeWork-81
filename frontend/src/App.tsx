@@ -3,40 +3,33 @@ import {Button, Container, Form, InputGroup} from "react-bootstrap";
 import {axiosApi} from "../axiosApi.ts";
 import {Response, UserUrl} from "../types";
 
+const redirectInitial = 'http://localhost:8000/links/'
 
-function App() {
+
+const App = () => {
   const [userInput, setUserInput] = useState('')
-  const [response, setResponse]=useState<Response>({
-    originalUrl:'',
-    shortUrl:'',
-  });
 
-  const [redirect, setRedirect]=useState('http://localhost:8000/')
+
+  const [redirect, setRedirect]=useState('http://localhost:8000/links/')
 
   const changeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
     setUserInput(e.target.value)
   }
 
-  const submitHandler=async (e:React.FormEvent<HTMLFormElement>)=>{
+  const submitHandler = async (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
-
     try{
       const data: UserUrl = {
         url: userInput
       }
 
-      const response = await axiosApi.post('links',data)
+      const response = await axiosApi.post<Response>('links',data)
 
       if(response.data !== undefined){
-        console.log(response.data)
-        setResponse(prevState => ({
-          ...prevState,
-          originalUrl: response.data.originalUrl,
-          shortUrl: response.data.shortUrl
-        }))
+        if(redirect !== redirectInitial){
+          setRedirect(redirectInitial)
+        }
         setRedirect(prevState => prevState + response.data.shortUrl)
-
-        console.log(redirect)
       }
         setUserInput('')
     }catch (e){
@@ -70,6 +63,6 @@ function App() {
       </Container>
     </>
   )
-}
+};
 
 export default App

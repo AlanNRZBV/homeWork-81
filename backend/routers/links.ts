@@ -6,11 +6,13 @@ import generateString from '../stringGenerator';
 
 export const linksRouter = Router()
 
-linksRouter.get('/', async (req, res,next)=>{
+linksRouter.get('/:shortUrl', async (req, res,next)=>{
   try{
-    const results = await Url.find()
-
-    res.send(results)
+    const result = await Url.findOne({shortUrl:req.params.shortUrl})
+    if (!result){
+      return  res.status(404).send({error:'Not Found!'})
+    }
+    res.status(301).redirect(result.originalUrl)
   }catch (e){
     next(e)
   }
@@ -18,11 +20,22 @@ linksRouter.get('/', async (req, res,next)=>{
 
 linksRouter.post('/', async (req, res,next)=>{
   try {
+    let isUnique = false;
+    let uniqueString: string = ''
 
-    const test = generateString(6)
+
+
+    while (!isUnique){
+      uniqueString = generateString(6)
+      const uniqueCheck = await Url.findOne({shortUrl:uniqueString})
+      if(!uniqueCheck){
+        isUnique = true
+      }
+    }
+
 
     const linkData: ILink = {
-      shortUrl:test,
+      shortUrl:uniqueString,
       originalUrl: req.body.url
     };
 
